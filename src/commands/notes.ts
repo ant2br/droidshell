@@ -8,10 +8,20 @@ const prisma = new PrismaClient();
 bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
   const noteTitle = match.input.split(" ")[1];
 
+  if(msg.chat.type === "private") {
+    return;
+  }
+
+  const group = await prisma.group.findFirst({
+    where: {
+      chat_id: msg.chat.id,
+    },
+  });
+
   if ((await isAdmin(msg.from.id, msg.chat.id)) !== true) {
     bot.sendMessage(
       msg.chat.id,
-      "Você não tem permissão para usar este comando",
+      i18next.t("no_permissions", { lng: group?.chat_lang }),
       {
         reply_to_message_id: msg.message_id,
       }
@@ -19,8 +29,15 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
     return;
   }
 
+  if(noteTitle === undefined) {
+    bot.sendMessage(msg.chat.id, i18next.t("note_empty", { lng: group?.chat_lang }), {
+      reply_to_message_id: msg.message_id,
+    });
+    return;
+  }
+
   if (noteTitle[0] !== "#") {
-    bot.sendMessage(msg.chat.id, "O título da nota deve começar com #", {
+    bot.sendMessage(msg.chat.id, i18next.t("note_title_error", { lng: group?.chat_lang }), {
       reply_to_message_id: msg.message_id,
     });
     return;
@@ -29,7 +46,7 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
   if (!msg.reply_to_message) {
     bot.sendMessage(
       msg.chat.id,
-      "Você precisa responder a uma mensagem para criar uma nota",
+      i18next.t("note_reply_error", { lng: group?.chat_lang }),
       {
         reply_to_message_id: msg.message_id,
       }
@@ -44,7 +61,6 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
     },
   });
 
-  console.log(note);
 
   if (!note) {
     let type: string | undefined;
@@ -73,7 +89,7 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
     if (!type) {
       bot.sendMessage(
         msg.chat.id,
-        "Este tipo de mensagem não pode ser adicionado como nota",
+        i18next.t("note_type_error", { lng: group?.chat_lang }),
         {
           reply_to_message_id: msg.message_id,
         }
@@ -92,7 +108,7 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
         },
       })
       .then((note: any) => {
-        bot.sendMessage(msg.chat.id, "Nota criada com sucesso", {
+        bot.sendMessage(msg.chat.id, i18next.t("note_saved", { lng: group?.chat_lang }), {
           reply_to_message_id: msg.message_id,
         });
       })
@@ -100,7 +116,7 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
         console.log(err);
       });
   } else {
-    bot.sendMessage(msg.chat.id, "Já existe uma nota com este título", {
+    bot.sendMessage(msg.chat.id, i18next.t("note_already_exists", { lng: group?.chat_lang }), {
       reply_to_message_id: msg.message_id,
     });
   }
@@ -109,10 +125,20 @@ bot.onText(/\/addnote(?: #(.+))?/, async (msg: any, match: any) => {
 bot.onText(/\/rmnote(?: #(.+))?/, async (msg: any, match: any) => {
   const noteTitle = match.input.split(" ")[1];
 
+  if(msg.chat.type === "private") {
+    return;
+  }
+
+  const group = await prisma.group.findFirst({
+    where: {
+      chat_id: msg.chat.id,
+    },
+  });
+
   if (!(await isAdmin(msg.from.id, msg.chat.id))) {
     bot.sendMessage(
       msg.chat.id,
-      "Você não tem permissão para usar este comando",
+      i18next.t("no_permissions", { lng: group?.chat_lang }),
       {
         reply_to_message_id: msg.message_id,
       }
@@ -121,7 +147,6 @@ bot.onText(/\/rmnote(?: #(.+))?/, async (msg: any, match: any) => {
   }
 
   try {
-    console.log(noteTitle);
     const note = await prisma.note.findFirst({
       where: {
         chat_id: msg.chat.id,
@@ -129,7 +154,7 @@ bot.onText(/\/rmnote(?: #(.+))?/, async (msg: any, match: any) => {
       },
     });
     if (!note) {
-      bot.sendMessage(msg.chat.id, "Não há uma nota com este título", {
+      bot.sendMessage(msg.chat.id, i18next.t("note_not_found", { lng: group?.chat_lang }), {
         reply_to_message_id: msg.message_id,
       });
       return;
@@ -139,7 +164,7 @@ bot.onText(/\/rmnote(?: #(.+))?/, async (msg: any, match: any) => {
         id: note.id,
       },
     });
-    bot.sendMessage(msg.chat.id, "Nota deletada com sucesso", {
+    bot.sendMessage(msg.chat.id, i18next.t("note_deleted", { lng: group?.chat_lang }), {
       reply_to_message_id: msg.message_id,
     });
   } catch (err) {
@@ -148,6 +173,16 @@ bot.onText(/\/rmnote(?: #(.+))?/, async (msg: any, match: any) => {
 });
 
 bot.onText(/\/notes/, async (msg: any, match: any) => {
+  if(msg.chat.type === "private") {
+    return;
+  }
+
+  const group = await prisma.group.findFirst({
+    where: {
+      chat_id: msg.chat.id,
+    },
+  });
+
   const Note = await prisma.note.findMany({
     where: {
       chat_id: msg.chat.id,
@@ -158,18 +193,19 @@ bot.onText(/\/notes/, async (msg: any, match: any) => {
     return;
   } else {
     if (Note.length > 0) {
-      const noteTitles: string[] = Note.map((note: any) => note.note_title);
+      const noteTitles: string[] = Note.map((note: any) => note.note_name);
       bot.sendMessage(
         msg.chat.id,
         `Notas cadastradas nesse chat: ${Note.length}\n\n${noteTitles.join(
           "\n"
-        )}`,
+        )}
+        `,
         {
           reply_to_message_id: msg.message_id,
         }
       );
     } else {
-      bot.sendMessage(msg.chat.id, "Não há notas cadastradas nesse chat", {
+      bot.sendMessage(msg.chat.id, i18next.t("notes_not_found", { lng: group?.chat_lang }), {
         reply_to_message_id: msg.message_id,
       });
     }
@@ -177,6 +213,16 @@ bot.onText(/\/notes/, async (msg: any, match: any) => {
 });
 
 bot.onText(/\/getnote(?: #(.+))?/, async (msg: any, match: any) => {
+  if(msg.chat.type === "private") {
+    return;
+  }
+
+  const group = await prisma.group.findFirst({
+    where: {
+      chat_id: msg.chat.id,
+    },
+  });
+
   const noteTitle = match.input.split(" ")[1];
 
   const note = await prisma.note.findFirst({
@@ -220,7 +266,7 @@ bot.onText(/\/getnote(?: #(.+))?/, async (msg: any, match: any) => {
         break;
     }
   } else {
-    bot.sendMessage(msg.chat.id, "Nota não encontrada", {
+    bot.sendMessage(msg.chat.id, i18next.t("note_not_found", { lng: group?.chat_lang }), {
       reply_to_message_id: msg.message_id,
     });
   }

@@ -4,7 +4,10 @@
             "language_changed": "Idioma alterado para {{lang}}",
             "not_admin": "Você não é um administrador",
             "about": "Sobre",
-            "commands": "Comandos"
+            "commands": "Comandos",
+            "no_rules": "Nenhuma regra foi definida para este chat.",
+            "no_permissions": "Você não tem permissão para executar este comando.",
+            "note_title_error": "O título da nota deve começar com #"
           
     }
 }
