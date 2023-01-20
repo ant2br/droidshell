@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id Int
+  chat_lang String?
+}
+
+model Group {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  chat_id Int
+  welcome String?
+  welcome_enabled Int?
+  rules String?
+  warns_limit Int?
+  chat_lang String?
+  cached_admins String?
+  antichannelpin Int?
+  delservicemsgs Int?
+  warn_action String?
+
+}
+
+
+model Note {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  chat_id Int
+  note_name String
+  raw_data String
+  file_id String
+  note_type String
+}

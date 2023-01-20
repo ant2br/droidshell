@@ -1,0 +1,10 @@
+{
+    "translation": {
+            "welcome_message": "Bem-vindo ao meu bot!",
+            "language_changed": "Idioma alterado para {{lang}}",
+            "not_admin": "Você não é um administrador",
+            "about": "Sobre",
+            "commands": "Comandos"
+          
+    }
+}
