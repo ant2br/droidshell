@@ -9,6 +9,8 @@
             "commands": "Commands",
 
             "no_rules": "No rules have been set for this chat.",
+            "rules_removed": "Rules removed.",
+            "rules_updated": "Rules updated.",
 
             "no_permissions": "You don't have the required permissions to do this.",
 
