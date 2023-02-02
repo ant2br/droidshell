@@ -95,6 +95,8 @@ bot.onText(/\/cotacao/, (msg: any, match: any) => {
       }
     }
 
+    
+
     bot.sendMessage(
       msg.chat.id,
       `Cotação Atualizada: ${getCurrentDate()} \n\n` +
