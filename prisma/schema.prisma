@@ -13,17 +13,18 @@ datasource db {
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   user_id Int
-  chat_lang String?
+  chat_lang String? @default("en")
 }
 
 model Group {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   chat_id Int
   welcome String?
-  welcome_enabled Int?
+  welcome_enabled Boolean? @default(true)
+  antiflood_enabled Boolean? @default(false)
   rules String?
-  warns_limit Int?
-  chat_lang String?
+  warns_limit Int? @default(3)
+  chat_lang String? @default("en")
   cached_admins String?
   antichannelpin Int?
   delservicemsgs Int?
@@ -39,4 +40,12 @@ model Note {
   raw_data String
   file_id String
   note_type String
+}
+
+
+model User_warns {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id  Int
+  chat_id  Int
+  count Int
 }

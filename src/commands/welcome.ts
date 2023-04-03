@@ -1,7 +1,6 @@
 import * as Handlebars from "handlebars";
 import TelegramBot from "node-telegram-bot-api";
 import bot from "../index";
-require("dotenv").config();
 import { PrismaClient } from "@prisma/client";
 
 import { getBotInfo } from "../utils/adminUtils";
