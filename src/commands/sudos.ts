@@ -119,9 +119,11 @@ bot.onText(/\/backup/, async (msg: any) => {
   archive.finalize();
 });
 
-bot.onText(/\/cmd/, async (msg: any, match: RegExpExecArray) => {
+bot.onText(/\/cmd/, async (msg: any, match: any) => {
   const chatId = msg.chat.id;
-  const param = match[0].split(" ")[1];
+  const param = match.input.replace("/cmd ", "");
+
+  console.log(param);
 
   if (await isSudo(msg.from.id)) {
     const re = /poweroff|halt|shutdown|reboot/g;
