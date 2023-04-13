@@ -129,6 +129,59 @@ bot.onText(/\/print (.+)/, async (msg:any, match:any) => {
       await bot.sendMessage(msg.chat.id, 'A entrada não é válida. Apenas caracteres numéricos e operadores matemáticos (+, -, *, /) são permitidos.');
     }
   });
+
+
+
+  bot.onText(/\/conversor (f-c|c-f|c-k|k-c|f-k|k-f) (\d+)/, (msg:any, match:any) => {
+    const input = match[1].split('-');
+    const fromScale = input[0].toUpperCase();
+    const toScale = input[1].toUpperCase();
+    const temp = parseFloat(match[2]);
+  
+    let convertedTemp;
+  
+    switch (fromScale) {
+      case 'F':
+        if (toScale === 'C') {
+          convertedTemp = ((temp - 32) * 5) / 9;
+        } else if (toScale === 'K') {
+          convertedTemp = ((temp - 32) * 5) / 9 + 273.15;
+        } else {
+          bot.sendMessage(msg.chat.id, 'Desculpe, a unidade de destino não é suportada.');
+          return;
+        }
+        break;
+  
+      case 'C':
+        if (toScale === 'F') {
+          convertedTemp = (temp * 9) / 5 + 32;
+        } else if (toScale === 'K') {
+          convertedTemp = temp + 273.15;
+        } else {
+          bot.sendMessage(msg.chat.id, 'Desculpe, a unidade de destino não é suportada.');
+          return;
+        }
+        break;
+  
+      case 'K':
+        if (toScale === 'F') {
+          convertedTemp = ((temp - 273.15) * 9) / 5 + 32;
+        } else if (toScale === 'C') {
+          convertedTemp = temp - 273.15;
+        } else {
+          bot.sendMessage(msg.chat.id, 'Desculpe, a unidade de destino não é suportada.');
+          return;
+        }
+        break;
+  
+      default:
+        bot.sendMessage(msg.chat.id, 'Desculpe, a unidade de origem não é suportada.');
+        return;
+    }
+  
+    bot.sendMessage(msg.chat.id, `${temp}°${fromScale} é equivalente a ${convertedTemp.toFixed(2)}°${toScale}.`);
+  });
+  
   
   
 
