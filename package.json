@@ -27,9 +27,9 @@
     "ignore": "^5.2.4",
     "node-telegram-bot-api": "^0.61.0",
     "prisma": "^4.12.0",
-    "puppeteer": "^19.9.0",
+    "puppeteer": "^19.9.1",
     "shell_exec": "^1.0.3",
     "tsup": "^6.7.0",
-    "ytdl-core": "^4.11.3"
+    "ytdl-core": "^4.11.4"
   }
 }
