@@ -1,11 +1,11 @@
-import bot from "../index";
-const i18next = require("../utils/i18n.ts");
 import { PrismaClient } from "@prisma/client";
+import { exec } from "child_process";
+import bot from "../index";
 import { isSudo } from "../utils/adminUtils";
+const i18next = require("../utils/i18n.ts");
 const archiver = require("archiver");
 const fs = require("fs");
-var shell_exec = require("shell_exec").shell_exec;
-var escape = require("escape-html");
+const escape = require("escape-html");
 
 bot.onText(/\/stats/, async (msg: any) => {
   const chatId = msg.chat.id;
@@ -78,9 +78,6 @@ bot.onText(/\/backup/, async (msg: any) => {
     fs.mkdirSync(backupPath);
   }
 
-  // Cria a lista de arquivos para ignorar
-  // const ig = ignore().add(['node_modules/**']);
-
   // Cria o arquivo zip
   const output = fs.createWriteStream(backupFile);
   const archive = archiver("zip", {
@@ -138,15 +135,28 @@ bot.onText(/\/cmd/, async (msg: any, match: any) => {
     }
 
     try {
-      const result = shell_exec(param);
-      const retorno = escape(result);
-
-      bot.sendMessage(chatId, `<b>Output:</b>\n<code>${retorno}</code>`, {
-        reply_to_message_id: msg.message_id,
-        parse_mode: "HTML",
+      exec(param, (error, stdout, stderr) => {
+        if (error) {
+          bot.sendMessage(chatId, `<b>Errors:</b>\n<code>${escape(error.message)}</code>`, {
+            reply_to_message_id: msg.message_id,
+            parse_mode: "HTML",
+          });
+          return;
+        }
+        if (stderr) {
+          bot.sendMessage(chatId, `<b>Errors:</b>\n<code>${escape(stderr)}</code>`, {
+            reply_to_message_id: msg.message_id,
+            parse_mode: "HTML",
+          });
+          return;
+        }
+        bot.sendMessage(chatId, `<b>Output:</b>\n<code>${escape(stdout)}</code>`, {
+          reply_to_message_id: msg.message_id,
+          parse_mode: "HTML",
+        });
       });
     } catch (e) {
-      bot.sendMessage(chatId, `<b>Errors:</b>\n<code>${e}</code>`, {
+      bot.sendMessage(chatId, `<b>Errors:</b>\n<code>${escape(e.message)}</code>`, {
         reply_to_message_id: msg.message_id,
         parse_mode: "HTML",
       });

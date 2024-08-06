@@ -12,24 +12,24 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2",
-    "@types/node-telegram-bot-api": "^0.64.3",
-    "archiver": "^7.0.0",
-    "axios": "^1.6.7",
+    "@prisma/client": "^5.17.0",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "archiver": "^7.0.1",
+    "axios": "^1.7.3",
     "dotenv": "^16.4.5",
     "escape-html": "^1.0.3",
     "handlebars": "^4.7.8",
-    "i18next": "^23.10.0",
+    "i18next": "^23.12.2",
     "ignore": "^5.3.1",
-    "node-telegram-bot-api": "^0.64.0",
-    "prisma": "^5.10.2",
-    "puppeteer": "^22.3.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "prisma": "^5.17.0",
+    "puppeteer": "^22.15.0",
     "shell-exec": "^1.1.2",
-    "tsup": "^8.0.2",
+    "tsup": "^8.2.4",
     "ytdl-core": "^4.11.5"
   }
 }

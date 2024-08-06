@@ -1,32 +1,23 @@
 {
     "translation": {
-            "welcome_message": "Welcome to my bot!",
-
-            "language_changed": "Language changed to {{lang}}",
-
-            "not_admin": "You are not an admin",
-            "about": "About",
-            "commands": "Commands",
-
-            "no_rules": "No rules have been set for this chat.",
-            "rules_removed": "Rules removed.",
-            "rules_updated": "Rules updated.",
-
-            "no_permissions": "You don't have the required permissions to do this.",
-
-
-            "//_notes": "Notes",
-            
-            "note_title_error": "The note title must start with #", 
-            "note_reply_error": "You need to reply to a message to create a note",
-            "note_not_found": "Note not found",
-            "note_deleted": "Note deleted",
-            "note_saved": "Note saved",
-            "note_already_exists": "A note with this name already exists",
-            "note_type_error": "This note type is not supported",
-            "notes_not_found": "No notes found in this chat",
-            "note_empty": "This note cannot be empty"
-            
-          
+        "welcome_message": "Welcome to my bot!",
+        "language_changed": "Language changed to {{lang}}",
+        "not_admin": "You are not an administrator",
+        "about": "About",
+        "commands": "Commands",
+        "no_rules": "No rules have been set for this chat.",
+        "rules_removed": "Rules removed.",
+        "rules_updated": "Rules updated.",
+        "no_permissions": "You do not have the required permissions to do this.",
+        "//_notes": "Notes",
+        "note_title_error": "The note title must start with #",
+        "note_reply_error": "You need to reply to a message to create a note",
+        "note_not_found": "Note not found",
+        "note_deleted": "Note deleted",
+        "note_saved": "Note saved",
+        "note_already_exists": "A note with this name already exists",
+        "note_type_error": "This note type is not supported",
+        "notes_not_found": "No notes found in this chat",
+        "note_empty": "This note cannot be empty"
     }
 }

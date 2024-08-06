@@ -1,7 +1,7 @@
-import TelegramBot from "node-telegram-bot-api";
-import fs from "fs";
-import path from "path";
 import dotenv from "dotenv";
+import fs from "fs";
+import TelegramBot from "node-telegram-bot-api";
+import path from "path";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ const startBot = async () => {
   }
 
   bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
-  bot.on("polling_error", (error:any) => {
+  bot.on("polling_error", (error: any) => {
     console.log(error);
   });
 };
@@ -32,6 +32,17 @@ const startBot = async () => {
 async function load() {
   console.log("Iniciando bot\n");
   await startBot();
+
+  const logChannel = process.env.LOG_CHANNEL;
+  const startupMessage = "O bot foi iniciado com sucesso!";
+  if (logChannel) {
+    try {
+      await bot.sendMessage(logChannel, startupMessage);
+      console.log("Mensagem de início enviada para o canal de logs.");
+    } catch (err) {
+      console.log("Erro ao enviar mensagem para o canal de logs:", err);
+    }
+  }
 
   let counter = 0;
   let errores = 0;

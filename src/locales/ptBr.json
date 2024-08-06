@@ -1,13 +1,23 @@
 {
     "translation": {
-            "welcome_message": "Bem-vindo ao meu bot!",
-            "language_changed": "Idioma alterado para {{lang}}",
-            "not_admin": "Você não é um administrador",
-            "about": "Sobre",
-            "commands": "Comandos",
-            "no_rules": "Nenhuma regra foi definida para este chat.",
-            "no_permissions": "Você não tem permissão para executar este comando.",
-            "note_title_error": "O título da nota deve começar com #"
-          
+        "welcome_message": "Bem-vindo ao meu bot!",
+        "language_changed": "Idioma alterado para {{lang}}",
+        "not_admin": "Você não é um administrador",
+        "about": "Sobre",
+        "commands": "Comandos",
+        "no_rules": "Nenhuma regra foi definida para este chat.",
+        "rules_removed": "Regras removidas.",
+        "rules_updated": "Regras atualizadas.",
+        "no_permissions": "Você não tem as permissões necessárias para fazer isso.",
+        "//_notes": "Notas",
+        "note_title_error": "O título da nota deve começar com #",
+        "note_reply_error": "Você precisa responder a uma mensagem para criar uma nota",
+        "note_not_found": "Nota não encontrada",
+        "note_deleted": "Nota excluída",
+        "note_saved": "Nota salva",
+        "note_already_exists": "Já existe uma nota com este nome",
+        "note_type_error": "Este tipo de nota não é suportado",
+        "notes_not_found": "Nenhuma nota encontrada neste chat",
+        "note_empty": "Esta nota não pode estar vazia"
     }
 }
